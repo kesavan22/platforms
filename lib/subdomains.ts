@@ -1,4 +1,5 @@
 import { redis } from '@/lib/redis';
+import { sql } from '@/lib/postgres';
 
 export function isValidIcon(str: string) {
   if (str.length > 10) {
@@ -33,9 +34,11 @@ type SubdomainData = {
 
 export async function getSubdomainData(subdomain: string) {
   const sanitizedSubdomain = subdomain.toLowerCase().replace(/[^a-z0-9-]/g, '');
-  const data = await redis.get<SubdomainData>(
-    `subdomain:${sanitizedSubdomain}`
-  );
+  // const data = await redis.get<SubdomainData>(
+  //   `${sanitizedSubdomain}`
+  // );
+  // console.log('Subdomain data:', data);
+  let data = await sql`SELECT * FROM tenant where subdomain = ${sanitizedSubdomain}`;
   return data;
 }
 
@@ -58,4 +61,11 @@ export async function getAllSubdomains() {
       createdAt: data?.createdAt || Date.now()
     };
   });
+}
+
+
+export async function getAllPostgresSubdomains() {
+  let data = await sql`SELECT * FROM tenant`
+  console.log('Postgres subdomains data:', data);
+  return data;
 }

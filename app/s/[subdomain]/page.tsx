@@ -32,7 +32,9 @@ export default async function SubdomainPage({
   const { subdomain } = await params;
   const subdomainData = await getSubdomainData(subdomain);
 
-  if (!subdomainData) {
+  console.log('Subdomain data:', subdomainData);
+
+  if (subdomainData.length === 0) {
     notFound();
   }
 
@@ -49,7 +51,7 @@ export default async function SubdomainPage({
 
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
-          <div className="text-9xl mb-6">{subdomainData.emoji}</div>
+          {/* <div className="text-9xl mb-6">{subdomainData.emoji}</div> */}
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
             Welcome to {subdomain}.{rootDomain}
           </h1>

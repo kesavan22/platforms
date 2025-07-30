@@ -1,4 +1,4 @@
-import { getAllSubdomains } from '@/lib/subdomains';
+import { getAllPostgresSubdomains, getAllSubdomains } from '@/lib/subdomains';
 import type { Metadata } from 'next';
 import { AdminDashboard } from './dashboard';
 import { rootDomain } from '@/lib/utils';
@@ -12,9 +12,11 @@ export default async function AdminPage() {
   // TODO: You can add authentication here with your preferred auth provider
   const tenants = await getAllSubdomains();
 
+  const postgresTenants = await getAllPostgresSubdomains();
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <AdminDashboard tenants={tenants} />
+      <AdminDashboard tenants={postgresTenants} />
     </div>
   );
 }
